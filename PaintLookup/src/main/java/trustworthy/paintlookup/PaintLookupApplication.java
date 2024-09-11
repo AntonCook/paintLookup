@@ -13,6 +13,18 @@ public class PaintLookupApplication extends javax.swing.JFrame {
     /**
      * Creates new form PaintLookupApplication
      */
+    
+    String CustomerName;
+    String PaintColorName;
+    String PaintColorNumber;
+    String PaintType;
+    String PaintBase;
+    String PaintFinish;
+    String Ax, B, C, D, E, F, I, L, M, S, T;
+    
+    
+    
+    
     public PaintLookupApplication() {
         initComponents();
     }
@@ -46,11 +58,11 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         CustomerNameTextField = new javax.swing.JTextField();
-        ColorNameTextField = new javax.swing.JTextField();
-        ColorNumberTextField = new javax.swing.JTextField();
-        ColorTypeSelection = new javax.swing.JComboBox<>();
-        ColorBaseSelection = new javax.swing.JComboBox<>();
-        FinishSelection = new javax.swing.JComboBox<>();
+        PaintColorNameTextField = new javax.swing.JTextField();
+        PaintColorNumberTextField = new javax.swing.JTextField();
+        PaintTypeSelection = new javax.swing.JComboBox<>();
+        PaintBaseSelection = new javax.swing.JComboBox<>();
+        PaintFinishSelection = new javax.swing.JComboBox<>();
         AxTextField = new javax.swing.JTextField();
         BTextField = new javax.swing.JTextField();
         CTextField = new javax.swing.JTextField();
@@ -71,15 +83,15 @@ public class PaintLookupApplication extends javax.swing.JFrame {
 
         jLabel1.setText("Customer Name:");
 
-        jLabel2.setText("Color Number:");
+        jLabel2.setText("Paint Color Number:");
 
-        jLabel3.setText("Color Name:");
+        jLabel3.setText("Paint Color Name:");
 
         jLabel4.setText("Base:");
 
         jLabel5.setText("Finish:");
 
-        jLabel7.setText("Color Type:");
+        jLabel7.setText("Paint Type:");
 
         jLabel8.setText("Ax:");
 
@@ -111,23 +123,23 @@ public class PaintLookupApplication extends javax.swing.JFrame {
             }
         });
 
-        ColorNameTextField.addActionListener(new java.awt.event.ActionListener() {
+        PaintColorNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ColorNameTextFieldActionPerformed(evt);
+                PaintColorNameTextFieldActionPerformed(evt);
             }
         });
 
-        ColorTypeSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Expressions ", "Expressions Select", "Medalion", "Medalion Plus" }));
-        ColorTypeSelection.setMinimumSize(new java.awt.Dimension(150, 23));
-        ColorTypeSelection.addActionListener(new java.awt.event.ActionListener() {
+        PaintTypeSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Expressions ", "Expressions Select", "Medalion", "Medalion Plus" }));
+        PaintTypeSelection.setMinimumSize(new java.awt.Dimension(150, 23));
+        PaintTypeSelection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ColorTypeSelectionActionPerformed(evt);
+                PaintTypeSelectionActionPerformed(evt);
             }
         });
 
-        ColorBaseSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pastel", "Clear", "Tint", "Ultra White" }));
+        PaintBaseSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pastel", "Clear", "Tint", "Ultra White" }));
 
-        FinishSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semi-gloss", "Satin", "Flat", "Eggshell" }));
+        PaintFinishSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semi-gloss", "Satin", "Flat", "Eggshell" }));
 
         BTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,6 +148,11 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         });
 
         AddRecordButton.setText("Add Record");
+        AddRecordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddRecordButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,11 +191,11 @@ public class PaintLookupApplication extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CustomerNameTextField)
-                            .addComponent(ColorNameTextField)
-                            .addComponent(ColorNumberTextField)
-                            .addComponent(ColorTypeSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ColorBaseSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(FinishSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PaintColorNameTextField)
+                            .addComponent(PaintColorNumberTextField)
+                            .addComponent(PaintTypeSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PaintBaseSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PaintFinishSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(BTextField)
                             .addComponent(CTextField)
                             .addComponent(DTextField)
@@ -205,23 +222,23 @@ public class PaintLookupApplication extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(ColorNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PaintColorNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(ColorNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PaintColorNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(ColorTypeSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PaintTypeSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(ColorBaseSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PaintBaseSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(FinishSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PaintFinishSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -286,17 +303,58 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CustomerNameTextFieldActionPerformed
 
-    private void ColorNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColorNameTextFieldActionPerformed
+    private void PaintColorNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PaintColorNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ColorNameTextFieldActionPerformed
+    }//GEN-LAST:event_PaintColorNameTextFieldActionPerformed
 
-    private void ColorTypeSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColorTypeSelectionActionPerformed
+    private void PaintTypeSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PaintTypeSelectionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ColorTypeSelectionActionPerformed
+    }//GEN-LAST:event_PaintTypeSelectionActionPerformed
 
     private void BTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BTextFieldActionPerformed
+
+    private void AddRecordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddRecordButtonActionPerformed
+        CustomerName = CustomerNameTextField.getText();
+        CustomerNameTextField.setText("");
+        PaintColorName = PaintColorNameTextField.getText();
+        PaintColorNameTextField.setText("");
+        PaintColorNumber = PaintColorNumberTextField.getText();
+        PaintColorNumberTextField.setText("");
+        PaintType = PaintTypeSelection.getSelectedItem().toString();
+        PaintBase = PaintBaseSelection.getSelectedItem().toString();
+        PaintFinish = PaintFinishSelection.getSelectedItem().toString();
+        Ax = AxTextField.getText();
+        AxTextField.setText("");
+        B = BTextField.getText();
+        BTextField.setText("");
+        C = CTextField.getText();
+        CTextField.setText("");
+        D = DTextField.getText();
+        DTextField.setText("");
+        E = ETextField.getText();
+        ETextField.setText("");
+        F = FTextField.getText();
+        FTextField.setText("");
+        I = ITextField.getText();
+        ITextField.setText("");
+        L = LTextField.getText();
+        LTextField.setText("");
+        M = MTextField.getText();
+        MTextField.setText("");
+        S = STextField.getText();
+        STextField.setText("");
+        T = TTextField.getText();
+        TTextField.setText("");
+        
+        
+
+
+
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddRecordButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,19 +396,19 @@ public class PaintLookupApplication extends javax.swing.JFrame {
     private javax.swing.JTextField AxTextField;
     private javax.swing.JTextField BTextField;
     private javax.swing.JTextField CTextField;
-    private javax.swing.JComboBox<String> ColorBaseSelection;
-    private javax.swing.JTextField ColorNameTextField;
-    private javax.swing.JTextField ColorNumberTextField;
-    private javax.swing.JComboBox<String> ColorTypeSelection;
     private javax.swing.JTextField CustomerNameTextField;
     private javax.swing.JTextField DTextField;
     private javax.swing.JTextField ETextField;
     private javax.swing.JTextField FTextField;
-    private javax.swing.JComboBox<String> FinishSelection;
     private javax.swing.JTextField ITextField;
     private javax.swing.JTextField KxTextField;
     private javax.swing.JTextField LTextField;
     private javax.swing.JTextField MTextField;
+    private javax.swing.JComboBox<String> PaintBaseSelection;
+    private javax.swing.JTextField PaintColorNameTextField;
+    private javax.swing.JTextField PaintColorNumberTextField;
+    private javax.swing.JComboBox<String> PaintFinishSelection;
+    private javax.swing.JComboBox<String> PaintTypeSelection;
     private javax.swing.JTextField STextField;
     private javax.swing.JTextField TTextField;
     private javax.swing.JLabel jLabel1;
