@@ -4,6 +4,12 @@
  */
 package trustworthy.paintlookup;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+
+
 /**
  *
  * @author dave
@@ -14,13 +20,16 @@ public class PaintLookupApplication extends javax.swing.JFrame {
      * Creates new form PaintLookupApplication
      */
     
-    String CustomerName;
-    String PaintColorName;
-    String PaintColorNumber;
-    String PaintType;
-    String PaintBase;
-    String PaintFinish;
-    String Ax, B, C, D, E, F, I, L, M, S, T;
+    //Setting up Variables for application
+    
+    private String CustomerName;
+    private String PaintColorName;
+    private String PaintColorNumber;
+    private String PaintType;
+    private String PaintBase;
+    private String PaintFinish;
+    private String Terior;
+    private String Ax, B, C, D, E, F, I, L, Kx, M, S, T;
     
     
     
@@ -76,6 +85,8 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         STextField = new javax.swing.JTextField();
         TTextField = new javax.swing.JTextField();
         AddRecordButton = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        TeriorSelection = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(640, 700));
@@ -141,6 +152,12 @@ public class PaintLookupApplication extends javax.swing.JFrame {
 
         PaintFinishSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semi-gloss", "Satin", "Flat", "Eggshell" }));
 
+        AxTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AxTextFieldActionPerformed(evt);
+            }
+        });
+
         BTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BTextFieldActionPerformed(evt);
@@ -154,103 +171,112 @@ public class PaintLookupApplication extends javax.swing.JFrame {
             }
         });
 
+        jLabel20.setText("Interior/Exterior");
+
+        TeriorSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Interior ", "Exterior" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel7)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel8))
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(AddRecordButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CustomerNameTextField)
-                            .addComponent(PaintColorNameTextField)
-                            .addComponent(PaintColorNumberTextField)
-                            .addComponent(PaintTypeSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PaintBaseSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PaintFinishSelection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BTextField)
-                            .addComponent(CTextField)
-                            .addComponent(DTextField)
-                            .addComponent(ETextField)
-                            .addComponent(FTextField)
-                            .addComponent(ITextField)
-                            .addComponent(KxTextField)
-                            .addComponent(LTextField)
-                            .addComponent(MTextField)
-                            .addComponent(STextField)
-                            .addComponent(TTextField)
-                            .addComponent(AxTextField))
-                        .addGap(360, 360, 360))))
+                            .addComponent(TTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(STextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(MTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(KxTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(ITextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(FTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(ETextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(CTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BTextField)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(21, 21, 21))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(TeriorSelection, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CustomerNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PaintColorNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PaintColorNumberTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PaintTypeSelection, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PaintBaseSelection, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PaintFinishSelection, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(AxTextField, javax.swing.GroupLayout.Alignment.LEADING))))
+                .addGap(360, 360, 360))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(AddRecordButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(CustomerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(PaintColorNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(PaintColorNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(PaintTypeSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(PaintBaseSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(PaintFinishSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel6))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(AxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9))
-                    .addComponent(BTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(CustomerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(PaintColorNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(PaintColorNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(PaintTypeSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(PaintBaseSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PaintFinishSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(TeriorSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(AxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -293,7 +319,9 @@ public class PaintLookupApplication extends javax.swing.JFrame {
                     .addComponent(TTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(AddRecordButton)
-                .addContainerGap(200, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addContainerGap(165, Short.MAX_VALUE))
         );
 
         pack();
@@ -316,6 +344,10 @@ public class PaintLookupApplication extends javax.swing.JFrame {
     }//GEN-LAST:event_BTextFieldActionPerformed
 
     private void AddRecordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddRecordButtonActionPerformed
+        
+        
+        //Reading Inputs From Form and Assigning them to variables
+        
         CustomerName = CustomerNameTextField.getText();
         CustomerNameTextField.setText("");
         PaintColorName = PaintColorNameTextField.getText();
@@ -339,6 +371,8 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         FTextField.setText("");
         I = ITextField.getText();
         ITextField.setText("");
+        Kx = KxTextField.getText();
+        KxTextField.setText("");
         L = LTextField.getText();
         LTextField.setText("");
         M = MTextField.getText();
@@ -347,7 +381,46 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         STextField.setText("");
         T = TTextField.getText();
         TTextField.setText("");
+        Terior = TeriorSelection.getSelectedItem().toString();
         
+        
+        //Sql Insertion Statement
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/trustworthy", "root", "sgjanssen5");
+            
+            String sql = "INSERT INTO paintLookup (name, paintColor, paintNumber, terior, type, finish, base, Ax, B, C, D, E, F, I, Kx, L, M, S, T)" + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, CustomerName);
+            ps.setString(2, PaintColorName);
+            ps.setString(3, PaintColorNumber);
+            ps.setString(4, Terior);
+            ps.setString(5, PaintType);
+            ps.setString(6, PaintFinish);
+            ps.setString(7, PaintBase);
+            ps.setString(8, Ax);
+            ps.setString(9, B);
+            ps.setString(10, C);
+            ps.setString(11, D);
+            ps.setString(12, E);
+            ps.setString(13, F);
+            ps.setString(14, I);
+            ps.setString(15, Kx);
+            ps.setString(16, L);
+            ps.setString(17, M);
+            ps.setString(18, S);
+            ps.setString(19, T);
+            
+            ps.execute();
+            con.close();
+            System.out.println("Success");
+            
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
         
 
 
@@ -355,6 +428,10 @@ public class PaintLookupApplication extends javax.swing.JFrame {
         
         // TODO add your handling code here:
     }//GEN-LAST:event_AddRecordButtonActionPerformed
+
+    private void AxTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AxTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AxTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,6 +488,7 @@ public class PaintLookupApplication extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> PaintTypeSelection;
     private javax.swing.JTextField STextField;
     private javax.swing.JTextField TTextField;
+    private javax.swing.JComboBox<String> TeriorSelection;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -423,6 +501,7 @@ public class PaintLookupApplication extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
