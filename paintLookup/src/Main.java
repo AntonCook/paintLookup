@@ -1,16 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Objects;
+
 
 public class Main implements ActionListener {
     //Declaring all Swing Elements
     JFrame frame;
-    JPanel menu, record, lookup;
+    JPanel menu, recordPanel, lookup;
     JButton menuRecord, menuLookup;
     JTextField customerName, paintColorName, paintColorNumber, ax, b, c, d, e, f, i, kx, l, m, s, t;
     JComboBox<String> paintType, base, finish, terior;
-    JButton addRecord;
+    JButton addRecord, menuRecordbtn;
 
 
     private void frameSetUp() {
@@ -46,9 +50,9 @@ public class Main implements ActionListener {
     }
 
     private void setUpRecordPage() {
-        record = new JPanel();
-        record.setLayout(new GridLayout(20, 2));
-        record.setBorder(BorderFactory.createEmptyBorder(200, 100, 200, 100));
+        recordPanel = new JPanel();
+        recordPanel.setLayout(new GridLayout(20, 2));
+        recordPanel.setBorder(BorderFactory.createEmptyBorder(200, 100, 200, 100));
 
         JLabel customerNameLabel = new JLabel("Customer Name");
         JLabel paintColorLabel = new JLabel("Paint Color");
@@ -106,70 +110,77 @@ public class Main implements ActionListener {
         addRecord.setFocusable(false);
         addRecord.addActionListener(this);
 
-        record.add(customerNameLabel);
-        record.add(customerName);
+        menuRecordbtn = new JButton("Main Menu");
+        menuRecordbtn.addActionListener(this);
+        menuRecordbtn.setFocusable(false);
 
-        record.add(paintColorLabel);
-        record.add(paintColorName);
 
-        record.add(paintColorNumberLabel);
-        record.add(paintColorNumber);
 
-        record.add(PaintTypeLabel);
-        record.add(paintType);
+        recordPanel.add(customerNameLabel);
+        recordPanel.add(customerName);
 
-        record.add(baseLabel);
-        record.add(base);
+        recordPanel.add(paintColorLabel);
+        recordPanel.add(paintColorName);
 
-        record.add(finishLabel);
-        record.add(finish);
+        recordPanel.add(paintColorNumberLabel);
+        recordPanel.add(paintColorNumber);
 
-        record.add(teriorLabel);
-        record.add(terior);
+        recordPanel.add(PaintTypeLabel);
+        recordPanel.add(paintType);
 
-        record.add(axLabel);
-        record.add(ax);
+        recordPanel.add(baseLabel);
+        recordPanel.add(base);
 
-        record.add(bLabel);
-        record.add(b);
+        recordPanel.add(finishLabel);
+        recordPanel.add(finish);
 
-        record.add(cLabel);
-        record.add(c);
+        recordPanel.add(teriorLabel);
+        recordPanel.add(terior);
 
-        record.add(dLabel);
-        record.add(d);
+        recordPanel.add(axLabel);
+        recordPanel.add(ax);
 
-        record.add(eLabel);
-        record.add(e);
+        recordPanel.add(bLabel);
+        recordPanel.add(b);
 
-        record.add(fLabel);
-        record.add(f);
+        recordPanel.add(cLabel);
+        recordPanel.add(c);
 
-        record.add(iLabel);
-        record.add(i);
+        recordPanel.add(dLabel);
+        recordPanel.add(d);
 
-        record.add(kLabel);
-        record.add(kx);
+        recordPanel.add(eLabel);
+        recordPanel.add(e);
 
-        record.add(lLabel);
-        record.add(l);
+        recordPanel.add(fLabel);
+        recordPanel.add(f);
 
-        record.add(mLabel);
-        record.add(m);
+        recordPanel.add(iLabel);
+        recordPanel.add(i);
 
-        record.add(sLabel);
-        record.add(s);
+        recordPanel.add(kLabel);
+        recordPanel.add(kx);
 
-        record.add(tLabel);
-        record.add(t);
+        recordPanel.add(lLabel);
+        recordPanel.add(l);
 
-        record.add(addRecord);
+        recordPanel.add(mLabel);
+        recordPanel.add(m);
+
+        recordPanel.add(sLabel);
+        recordPanel.add(s);
+
+        recordPanel.add(tLabel);
+        recordPanel.add(t);
+
+        recordPanel.add(addRecord);
+        recordPanel.add(menuRecordbtn);
 
 
         frame.remove(menu);
         frame.pack();
 
-        frame.add(record);
+        frame.add(recordPanel);
         frame.pack();
 
 
@@ -180,31 +191,87 @@ public class Main implements ActionListener {
     }
 
     private void mySqlInsert() {
-        String customerNameS = customerName.getText();
-        String paintColorS = paintColorName.getText();
-        String paintColorNumberS = paintColorNumber.getText();
+        String customerNameS = customerName.getText().toLowerCase();
+        customerName.setText("");
+        String paintColorS = paintColorName.getText().toLowerCase();
+        paintColorName.setText("");
+        String paintColorNumberS = paintColorNumber.getText().toLowerCase();
+        paintColorNumber.setText("");
         String paintTypeS = Objects.requireNonNull(paintType.getSelectedItem()).toString();
-        String baseS = b.getText();
+        String baseS = Objects.requireNonNull(base.getSelectedItem()).toString();
         String finishS = Objects.requireNonNull(finish.getSelectedItem()).toString();
         String teriorS = Objects.requireNonNull(terior.getSelectedItem()).toString();
         String axS = ax.getText();
+        ax.setText("");
         String bS = b.getText();
+        b.setText("");
         String cs = c.getText();
+        c.setText("");
         String ds = d.getText();
+        d.setText("");
         String es = e.getText();
+        e.setText("");
         String fs = f.getText();
+        f.setText("");
         String is = i.getText();
+        i.setText("");
         String kxs = kx.getText();
+        kx.setText("");
         String ls = l.getText();
+        l.setText("");
         String ms = m.getText();
+        m.setText("");
         String ss = s.getText();
+        s.setText("");
         String ts = t.getText();
+        t.setText("");
 
+        String sql = "INSERT INTO paintLookup (name, paintColor, paintNumber, terior, type, finish, base, Ax, B, C, D, E, F, I, Kx, L, M, S, T)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?, ?, ?, ?, ?, ?)";
+
+
+        try{
+            String user = "root";
+            String password = "sgjanssen5";
+            String url = "jdbc:mysql://localhost:3306/trustworthy";
+
+            Connection conn = DriverManager.getConnection(url,user, password);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.getConnection();
+            ps.setString(1, customerNameS);
+            ps.setString(2, paintColorS);
+            ps.setString(3, paintColorNumberS);
+            ps.setString(4, teriorS);
+            ps.setString(5, paintTypeS);
+            ps.setString(6, finishS);
+            ps.setString(7, baseS);
+            ps.setString(8, axS);
+            ps.setString(9, bS);
+            ps.setString(10, cs);
+            ps.setString(11, ds);
+            ps.setString(12, es);
+            ps.setString(13, fs);
+            ps.setString(14, is);
+            ps.setString(15, kxs);
+            ps.setString(16, ls);
+            ps.setString(17, ms);
+            ps.setString(18, ss);
+            ps.setString(19, ts);
+            ps.executeUpdate();
+
+
+
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
 
 
 
 
     }
+
 
 
     boolean first = true;
@@ -232,6 +299,11 @@ public class Main implements ActionListener {
         }
         else if(e.getSource() == addRecord) {
             mySqlInsert();
+        }
+        else if(e.getSource() == menuRecordbtn) {
+            frame.remove(recordPanel);
+            frame.add(menu);
+            frame.pack();
         }
     }
 }
