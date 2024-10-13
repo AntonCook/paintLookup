@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -10,7 +12,10 @@ import java.util.Objects;
 public class Main implements ActionListener {
     //Declaring all Swing Elements
     JFrame frame;
-    JPanel menu, recordPanel, lookup;
+    JPanel menu, recordPanel, lookupPanel;
+    JButton searchBtn, lookupPanelMenuBtn;
+    JTextField searchTxt;
+    JTable results;
     JButton menuRecord, menuLookup;
     JTextField customerName, paintColorName, paintColorNumber, ax, b, c, d, e, f, i, kx, l, m, s, t;
     JComboBox<String> paintType, base, finish, terior;
@@ -187,6 +192,44 @@ public class Main implements ActionListener {
     }
 
     private void lookupPage() {
+        lookupPanel = new JPanel();
+        lookupPanel.setLayout(new GridLayout(5, 1));
+
+        lookupPanel.setBorder(BorderFactory.createEmptyBorder(200, 100, 200, 100));
+
+        searchBtn = new JButton("Search");
+        searchBtn.addActionListener(this);
+        searchBtn.setFocusable(false);
+
+        lookupPanelMenuBtn = new JButton("Menu");
+        lookupPanelMenuBtn.addActionListener(this);
+        lookupPanelMenuBtn.setFocusable(false);
+
+        searchTxt = new JTextField();
+
+
+        String[] col;
+        Object[][] data;
+
+        col = new String[] {"Customer Name", "Paint Color", "Paint Number"};
+        data = getData();
+
+
+
+
+
+        JScrollPane js = new JScrollPane(results);
+
+
+
+        lookupPanel.add(searchTxt);
+        lookupPanel.add(searchBtn);
+        lookupPanel.add(lookupPanelMenuBtn);
+
+        frame.add(lookupPanel);
+        frame.pack();
+
+
 
     }
 
@@ -272,6 +315,10 @@ public class Main implements ActionListener {
 
     }
 
+    private Object[][] getData() {
+
+        return new Object[][]{};
+    }
 
 
     boolean first = true;
@@ -302,6 +349,21 @@ public class Main implements ActionListener {
         }
         else if(e.getSource() == menuRecordbtn) {
             frame.remove(recordPanel);
+            frame.add(menu);
+            frame.pack();
+        } else if (e.getSource() == menuLookup) {
+            boolean lookup = true;
+            while(lookup) {
+                lookupPage();
+                lookup = false;
+            }
+            frame.remove(menu);
+            frame.add(lookupPanel);
+            frame.pack();
+        }
+        else if(e.getSource() == lookupPanelMenuBtn) {
+            frame.remove(lookupPanel);
+            frame.pack();
             frame.add(menu);
             frame.pack();
         }
